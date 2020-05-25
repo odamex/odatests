@@ -16,6 +16,7 @@
 #  GNU General Public License for more details.
 
 import asyncio
+import configparser
 import os
 import re
 import tempfile
@@ -55,32 +56,62 @@ async def run_odamex(*odamex_args):
     os.unlink(tmpname)
     return log
 
-async def demotest(iwad, pwads, demo):
+async def demotest(iwad, demo, expect, pwads=None, deh=None):
     """
     Runs Odamex in demotest mode.
 
     If Odamex runs the demo in a reasonable amount of time and the player
     position is the same as what we have on file, the demo passes.
     """
+    # Construct a command line
+    args = []
+    args.extend(("-iwad", iwad))
+    if pwads:
+        args.extend(("-file",) + tuple(pwads))
+    if deh:
+        args.extend(('-deh', deh))
+    args.extend(("+demotest", demo))
+    print(args)
+    return
+
     # Run Odamex in demotest mode
-    res = await run_odamex("-iwad", iwad, "+demotest", demo)
+    res = await run_odamex(*args)
     log = res.decode("ascii").replace("\r\n", "\n")
 
     # Extract the "demotest" string.
     match = re.search(r"demotest:([0-9a-f]+) ([0-9a-f]+) ([0-9a-f]+) ([0-9a-f]+)", log)
-    print(match.group(1))
-    print(match.group(2))
-    print(match.group(3))
-    print(match.group(4))
+    print(match.group(1), match.group(2), match.group(3), match.group(4))
     return True
 
-async def main():
-    done, _ = await asyncio.wait([
-        demotest("doom2.wad", [], "DEMO1"),
-        demotest("doom2.wad", [], "DEMO2"),
-        demotest("doom2.wad", [], "DEMO3")
-    ], timeout=TEST_TIMEOUT_SECS, return_when=asyncio.ALL_COMPLETED)
+async def demolist():
+    """
+    Run all configured demos.
+
+    Reads the demolist configuration and creates demotest coroutines for every
+    configured demo.
+    """
+    demotests = []
+
+    # Read the config.
+    config = configparser.ConfigParser()
+    config.read("demolist.ini")
+
+    # Make a coroutine per config
+    for section in config.sections():
+        args = dict(config.items(section))
+        if 'pwad' in args:
+            args['pwads'] = args['pwad'].split(' ')
+            del args['pwad']
+        demotests.append(demotest(**args))
+
+    # Run our demo-running coroutines.
+    done, _ = await asyncio.wait(
+        demotests, timeout=TEST_TIMEOUT_SECS, return_when=asyncio.ALL_COMPLETED
+    )
     for proc in done:
         print(proc.result())
+
+async def main():
+    await demolist()
 
 asyncio.run(main())
