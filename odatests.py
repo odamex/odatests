@@ -22,12 +22,39 @@ import re
 import tempfile
 import unittest
 
+from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 CREATE_TIMEOUT_SECS = 5
 TEST_TIMEOUT_SECS = 300
 ODAMEX_BIN = "../odamex/build-gcc/client/odamex.exe"
 MAX_ODAMEX_PROCS = 4
+
+
+def resolve_demo(demo: str) -> str:
+    """
+    Resolve a demo file or lump to something we can pass to Odamex.
+    """
+    p = Path("demos") / demo
+    if not p.exists():
+        # This demo does not exist, must be a lump.
+        return demo
+
+    # This file exists, return it.
+    return str(p)
+
+
+def resolve_wad(wad: str) -> str:
+    """
+    Resolve a demo file or lump to something we can pass to Odamex.
+    """
+    p = Path("wads") / wad
+    if not p.exists():
+        # This demo does not exist.
+        raise RuntimeError("WAD does not exist")
+
+    # This file exists, return it.
+    return str(p)
 
 
 async def run_odamex(*odamex_args: str) -> bytes:
@@ -77,12 +104,12 @@ async def demotest(
     async with procs:
         # Construct a command line
         args: List[str] = []
-        args.extend(("-iwad", iwad))
+        args.extend(("-iwad", resolve_wad(iwad)))
         if pwads:
             args.extend(("-file",) + tuple(pwads))
         if deh:
             args.extend(("-deh", deh))
-        args.extend(("-demotest", demo))
+        args.extend(("-demotest", resolve_demo(demo)))
 
         # Run Odamex in demotest mode
         res = await run_odamex(*args)
