@@ -3,7 +3,7 @@
 #  $Id: $
 #
 #  Copyright (C) 2000-2006 by Sergey Makovkin (CSDoom .62)
-#  Copyright (C) 2006-2020 by The Odamex Team.
+#  Copyright (C) 2006-2022 by The Odamex Team.
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ from typing import Any, Dict, List, Optional
 
 CREATE_TIMEOUT_SECS = 5
 TEST_TIMEOUT_SECS = 300
-ODAMEX_BIN = "../odamex/build-gcc/client/odamex.exe"
+ODAMEX_BIN = r"C:\Users\Blair\source\repos\odamex\out\build\x64-Debug\client\odamex.exe"
 MAX_ODAMEX_PROCS = 4
 
 
@@ -41,7 +41,7 @@ def resolve_demo(demo: str) -> str:
         return demo
 
     # This file exists, return it.
-    return str(p)
+    return ".\\" +str(p)
 
 
 def resolve_wad(wad: str) -> str:
@@ -50,11 +50,30 @@ def resolve_wad(wad: str) -> str:
     """
     p = Path("wads") / wad
     if not p.exists():
-        # This demo does not exist.
-        raise RuntimeError("WAD does not exist")
+        ex = "WAD does not exist: {}".format(wad)
+        raise RuntimeError(ex)
 
     # This file exists, return it.
     return str(p)
+
+def resolve_wads(wads: List[str]) -> tuple:
+    """
+    Resolve a list of pwads, and print if the file can't be found.
+    """
+    wadlist = []
+    for w in wads:
+        p = Path("wads") / w
+
+        if not p.exists():
+             ex = "WAD does not exist: {}".format(w)
+             raise RuntimeError(ex)
+        else:
+            wadpath = str(p)
+
+        wadlist.append(wadpath)
+
+    # All files exists, return them.
+    return tuple(wadlist)
 
 
 async def run_odamex(*odamex_args: str) -> bytes:
@@ -70,9 +89,15 @@ async def run_odamex(*odamex_args: str) -> bytes:
     #      accessible to other processes on Windows.
     tmphandle, tmpname = tempfile.mkstemp(prefix="odamex_")
 
+    odargs = (ODAMEX_BIN, *odamex_args, "+logfile", tmpname)
+
+    oargs = " ".join(odargs)
+
     # Wait for Odamex to start.
     proc = await asyncio.wait_for(
-        asyncio.create_subprocess_exec(ODAMEX_BIN, "+logfile", tmpname, *odamex_args),
+        asyncio.create_subprocess_shell(oargs,
+                                        stdout=asyncio.subprocess.PIPE,
+                                        stderr=asyncio.subprocess.PIPE),
         CREATE_TIMEOUT_SECS,
     )
 
@@ -102,14 +127,18 @@ async def demotest(
     position is the same as what we have on file, the demo passes.
     """
     async with procs:
+        abspath = os.path.abspath(__file__)
+        dname = os.path.dirname(abspath)
+        os.chdir(dname)
+
         # Construct a command line
         args: List[str] = []
         args.extend(("-iwad", resolve_wad(iwad)))
         if pwads:
-            args.extend(("-file",) + tuple(pwads))
+            args.extend(("-file",) + resolve_wads(pwads))
         if deh:
             args.extend(("-deh", deh))
-        args.extend(("-demotest", resolve_demo(demo)))
+        args.extend(("+demotest", resolve_demo(demo)))
 
         # Run Odamex in demotest mode
         res = await run_odamex(*args)

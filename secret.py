@@ -3,7 +3,7 @@
 #  $Id: $
 #
 #  Copyright (C) 2000-2006 by Sergey Makovkin (CSDoom .62)
-#  Copyright (C) 2006-2020 by The Odamex Team.
+#  Copyright (C) 2006-2022 by The Odamex Team.
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -112,7 +112,7 @@ if __name__ == "__main__":
     if sub == "genkey":
         genkey()
     else:
-        if not "SECRET_KEY" in os.environ:
+        if not os.getenv('SECRET_KEY'):
             print("Environment variable SECRET_KEY is missing")
             print_help()
             sys.exit(1)
@@ -122,7 +122,7 @@ if __name__ == "__main__":
             print_help()
             sys.exit(1)
 
-        SECRET_KEY = os.environ["SECRET_KEY"]
+        SECRET_KEY = os.getenv('SECRET_KEY')
         if sub == "encrypt":
             encrypt(sys.argv[2], b64decode(SECRET_KEY))
         elif sub == "decrypt":
