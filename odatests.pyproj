@@ -80,6 +80,7 @@
     <Content Include="demos\tapfocus.lmp" />
     <Content Include="demos\thingrun.lmp" />
     <Content Include="demos\wallrun.lmp" />
+    <Content Include="README.md" />
     <Content Include="wads\.gitignore" />
     <Content Include="wads\32in24-7-024.wad" />
     <Content Include="wads\av.wad" />
