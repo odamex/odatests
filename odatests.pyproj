@@ -26,10 +26,89 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="demolist.ini" />
+    <Content Include="demos\.gitignore" />
+    <Content Include="demos\02noview.lmp" />
+    <Content Include="demos\07intowr.lmp" />
+    <Content Include="demos\07tower.lmp" />
+    <Content Include="demos\2ghosts.lmp" />
+    <Content Include="demos\30nm4048.lmp" />
+    <Content Include="demos\32in24-7-024_map03.lmp" />
+    <Content Include="demos\bfgdemo.lmp" />
+    <Content Include="demos\blindav.lmp" />
+    <Content Include="demos\bohfight.lmp" />
+    <Content Include="demos\bounce1.lmp" />
+    <Content Include="demos\bounce2.lmp" />
+    <Content Include="demos\burnthru.lmp" />
+    <Content Include="demos\cacofit2.lmp" />
+    <Content Include="demos\cacofite.lmp" />
+    <Content Include="demos\combslip.lmp" />
+    <Content Include="demos\coopuv30.lmp" />
+    <Content Include="demos\d1shock.lmp" />
+    <Content Include="demos\d1slide.lmp" />
+    <Content Include="demos\d2shock.lmp" />
+    <Content Include="demos\d2slide.lmp" />
+    <Content Include="demos\deadlift.lmp" />
+    <Content Include="demos\dedngone.lmp" />
+    <Content Include="demos\ep1-0500.lmp" />
+    <Content Include="demos\firewall.lmp" />
+    <Content Include="demos\flicker.lmp" />
+    <Content Include="demos\fusedem.lmp" />
+    <Content Include="demos\ghostpe1.lmp" />
+    <Content Include="demos\ghostpe2.lmp" />
+    <Content Include="demos\hf21tysn.lmp" />
+    <Content Include="demos\hr2-lv01.lmp" />
+    <Content Include="demos\impfight.lmp" />
+    <Content Include="demos\impghost.lmp" />
+    <Content Include="demos\impmiss.lmp" />
+    <Content Include="demos\lv04-028.lmp" />
+    <Content Include="demos\lv07-046.lmp" />
+    <Content Include="demos\lv12-043.lmp" />
+    <Content Include="demos\lv15s032.lmp" />
+    <Content Include="demos\manormis.lmp" />
+    <Content Include="demos\nm30cop1.lmp" />
+    <Content Include="demos\nm30cop2.lmp" />
+    <Content Include="demos\nontoxic.lmp" />
+    <Content Include="demos\revfight.lmp" />
+    <Content Include="demos\revorbit.lmp" />
+    <Content Include="demos\smpunch.lmp" />
+    <Content Include="demos\soulfrag.lmp" />
+    <Content Include="demos\soulpop.lmp" />
+    <Content Include="demos\speedbmp.lmp" />
+    <Content Include="demos\stilhere.lmp" />
+    <Content Include="demos\stuckimp.lmp" />
+    <Content Include="demos\tallbomb.lmp" />
+    <Content Include="demos\tapfocus.lmp" />
+    <Content Include="demos\thingrun.lmp" />
+    <Content Include="demos\wallrun.lmp" />
+    <Content Include="wads\.gitignore" />
+    <Content Include="wads\32in24-7-024.wad" />
+    <Content Include="wads\av.wad" />
+    <Content Include="wads\chex.deh" />
+    <Content Include="wads\chex.wad" />
+    <Content Include="wads\cyhgbavn.wad.bin" />
+    <Content Include="wads\doom.wad" />
+    <Content Include="wads\doom1.wad" />
+    <Content Include="wads\doom2.wad" />
+    <Content Include="wads\gag.wad.bin" />
+    <Content Include="wads\gothicdm.wad" />
+    <Content Include="wads\hr.wad" />
+    <Content Include="wads\hr2final.wad" />
+    <Content Include="wads\icarus.wad" />
+    <Content Include="wads\mm2.wad" />
+    <Content Include="wads\plutonia.wad" />
+    <Content Include="wads\qbbz.wad.bin" />
+    <Content Include="wads\qbbz2.wad.bin" />
+    <Content Include="wads\requiem.wad" />
+    <Content Include="wads\tnt.wad" />
+    <Content Include="wads\unpk.wad.bin" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="odatests.py" />
     <Compile Include="secret.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="demos\" />
+    <Folder Include="wads\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
 </Project>
