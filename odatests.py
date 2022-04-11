@@ -24,10 +24,25 @@ import tempfile
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-CREATE_TIMEOUT_SECS = 5
-TEST_TIMEOUT_SECS = 300
-ODAMEX_BIN = r"C:\Users\Blair\source\repos\odamex-alt\out\build\x64-Debug\client\odamex.exe"
-MAX_ODAMEX_PROCS = 4
+if not os.getenv('CREATE_TIMEOUT_SECS'):
+    CREATE_TIMEOUT_SECS = 5
+else:
+    CREATE_TIMEOUT_SECS = os.getenv('CREATE_TIMEOUT_SECS')
+
+if not os.getenv('TEST_TIMEOUT_SECS'):
+    TEST_TIMEOUT_SECS = 300
+else:
+    TEST_TIMEOUT_SECS = os.getenv('TEST_TIMEOUT_SECS')
+
+if not os.getenv('ODAMEX_BIN'):
+    ODAMEX_BIN = r"C:\Users\Blair\source\repos\odamex-alt\out\build\x64-Debug\client\odamex.exe"
+else:
+    ODAMEX_BIN = os.getenv('ODAMEX_BIN')
+
+if not os.getenv('MAX_ODAMEX_PROCS'):
+    MAX_ODAMEX_PROCS = 4
+else:
+    MAX_ODAMEX_PROCS = os.getenv('MAX_ODAMEX_PROCS')
 
 class DemoTest ():
     def resolve_demo(demo: str) -> str:
