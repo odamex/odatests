@@ -15,7 +15,7 @@ jobs:
       id: extract_branch
     - name: sanitize target
       shell: bash
-      run: echo "##[set-output name=TARGET_SANI;]$(echo "${{ steps.extract_branch.outputs.branch }}".replace("/","_")"
+      run: echo "##[set-output name=TARGET_SANI;]$(echo '${{ steps.extract_branch.outputs.branch }}'.replace('/','_'))"
       id: sanitized-output
     - name: Upload artifact to Github
       uses: actions/upload-artifact@v2
