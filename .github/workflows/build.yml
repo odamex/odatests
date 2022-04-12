@@ -13,10 +13,13 @@ jobs:
       shell: bash
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/}.${GITHUB_RUN_NUMBER})"
       id: extract_branch
+    - name: sanitize target
+      shell: bash
+      run: echo ::set-env name=TARGET_SANI::$(echo ${{ steps.extract_branch.outputs.branch }} | tr "/" "_")
     - name: Upload artifact to Github
       uses: actions/upload-artifact@v2
       with:
-        name: OdaTests-${{ steps.extract_branch.outputs.branch }}
+        name: OdaTests-${{ env.TARGET_SANI }}
         path: |
           *
           !.git
