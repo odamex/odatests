@@ -14,7 +14,7 @@ jobs:
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/}.${GITHUB_RUN_NUMBER})"
       id: extract_branch
     - name: sanitize target
-      run: echo "::set-output name=sanitized::'${{steps.extract_branch.outputs.branch}}'.replace('/','_'))"
+      run: echo "::set-output name=sanitized::'${{steps.extract_branch.outputs.branch}}'.replace('/','_')"
     - name: Upload artifact to Github
       uses: actions/upload-artifact@v2
       with:
