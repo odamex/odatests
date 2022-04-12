@@ -10,8 +10,8 @@ jobs:
     - name: Checkout source
       uses: actions/checkout@v2
     - name: "Determine Branch"
-        id: branches
-        uses: transferwise/sanitize-branch-name@v1
+      id: branches
+      uses: transferwise/sanitize-branch-name@v1
     - name: Upload artifact to Github
       uses: actions/upload-artifact@v2
       with:
