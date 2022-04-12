@@ -9,19 +9,13 @@ jobs:
     steps:
     - name: Checkout source
       uses: actions/checkout@v2
-    - name: Extract branch name
-      shell: bash
-      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/}.${GITHUB_RUN_NUMBER})"
-      id: extract_branch
-    - name: sanitize target
-      run: |
-      $SANITIZED_TARGET = '${{steps.extract_branch.outputs.branch}}'.replace('/','_')
-      echo "::set-output name=sanitized::${$SANITIZED_TARGET}"
-      id: sanitize_target
+    - name: "Determine Branch"
+        id: branches
+        uses: transferwise/sanitize-branch-name@v1
     - name: Upload artifact to Github
       uses: actions/upload-artifact@v2
       with:
-        name: OdaTests-${{ steps.sanitize_target.outputs.sanitized }}
+        name: OdaTests-${{ steps.branches.outputs.sanitized-branch-name }}
         path: |
           *
           !.git
