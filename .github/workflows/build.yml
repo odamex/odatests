@@ -15,7 +15,7 @@ jobs:
     - name: Upload artifact to Github
       uses: actions/upload-artifact@v2
       with:
-        name: OdaTests-${{ steps.branches.outputs.sanitized-branch-name }}
+        name: OdaTests-${{ steps.branches.outputs.sanitized-branch-name }}.${{ env.GITHUB_RUN_NUMBER }}
         path: |
           *
           !.git
