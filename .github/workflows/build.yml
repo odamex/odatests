@@ -14,11 +14,14 @@ jobs:
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/}.${GITHUB_RUN_NUMBER})"
       id: extract_branch
     - name: sanitize target
-      run: echo "::set-output name=sanitized::'${{steps.extract_branch.outputs.branch}}'.replace('/','_')"
+      run: |
+      $SANITIZED_TARGET = '${{steps.extract_branch.outputs.branch}}'.replace('/','_')
+      echo "::set-output name=sanitized::${$SANITIZED_TARGET}"
+      id: sanitize_target
     - name: Upload artifact to Github
       uses: actions/upload-artifact@v2
       with:
-        name: OdaTests-${{ steps.vars.outputs.sanitized }}
+        name: OdaTests-${{ steps.sanitize_target.outputs.sanitized }}
         path: |
           *
           !.git
