@@ -1,0 +1,22 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  package:
+    name: Package
+    runs-on: windows-latest
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v2
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/}.${GITHUB_RUN_NUMBER})"
+      id: extract_branch
+    - name: ZIP artifacts
+      run:  7z.exe a -tzip "${{ steps.extract_branch.outputs.branch }}.zip" "*"
+    - name: Upload artifact to Github
+      uses: actions/upload-artifact@v2
+      with:
+        name: Odamex-Win-x64
+        path: './${{ steps.extract_branch.outputs.branch }}.zip'

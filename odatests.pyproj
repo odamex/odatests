@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{56d1a617-c96b-47ca-aa0e-29b134a79c7d}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>odatests.py</StartupFile>
+    <StartupFile>odatestcases.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
