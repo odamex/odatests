@@ -128,12 +128,13 @@ class DemoTest ():
 
     async def demotest(
         procs: asyncio.Semaphore,
+        section: str,
         iwad: str,
         demo: str,
         expect: str,
         pwads: Optional[List[str]] = None,
         deh: Optional[str] = None,
-    ) -> bool:
+    ) -> tuple:
         """
         Runs Odamex in demotest mode.
 
@@ -164,16 +165,16 @@ class DemoTest ():
             )
             if match is None:
                 print(*args, "No Match")
-                return False
+                return section, False
 
             # Check if expect == actual
             actual = " ".join(match.groups())
             if expect != actual:
                 print(*args, expect, actual, "expect != actual")
-                return False
+                return section, False
 
             print(*args, "PASS")
-            return True
+            return section, True
 
 
     async def demolist() -> list:
@@ -196,19 +197,18 @@ class DemoTest ():
             if "pwad" in args:
                 args["pwads"] = args["pwad"].split(" ")
                 del args["pwad"]
-            demotests.append(DemoTest.demotest(procs, **args))
+            demotests.append(DemoTest.demotest(procs, section, **args))
 
         # Run our demo-running coroutines.
         done, _ = await asyncio.wait(
             demotests, timeout=TEST_TIMEOUT_SECS, return_when=asyncio.ALL_COMPLETED
         )
-        failures = []
+        results = []
 
         for proc in done:
-            if proc.result() is not True:
-                failures.append(proc.result())
+                results.append(proc.result())
 
-        return failures
+        return results
 
 
 
