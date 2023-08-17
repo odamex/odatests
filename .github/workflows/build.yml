@@ -1,0 +1,21 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  package:
+    name: Package
+    runs-on: windows-latest
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v2
+    - name: "Determine Branch"
+      id: branches
+      uses: transferwise/sanitize-branch-name@v1
+    - name: Upload artifact to Github
+      uses: actions/upload-artifact@v2
+      with:
+        name: OdaTests-${{ steps.branches.outputs.sanitized-branch-name }}.${{ github.run_number }}
+        path: |
+          *
+          !.git

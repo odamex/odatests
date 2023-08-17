@@ -1,0 +1,24 @@
+; demolist.ini handles each demo that will be loaded into the program.
+; The program loads from the demolist and runs them at random each time, one per thread
+; for the configured amount of threads.
+;
+; Doom 2 demos are handled like so:
+
+;[DOOM II: Internal Demo 1]
+;iwad=doom2.wad
+;demo=demo1
+;expect=15eb4720 3ccc7a1 3fc7e27 800000
+
+;[DOOM II: Internal Demo 2]
+;iwad=doom2.wad
+;demo=demo2
+;expect=cea29400 289b9c2 fece4356 600000
+
+;[DOOM II: Internal Demo 3]
+;iwad=doom2.wad
+;demo=demo3
+;expect=dca00040 fd6a4b9c ff7bee0a ff000000
+
+; expect is given by odamex.exe when you run a +demotest command. The program will
+; spit out, in hex, the final location of the player when the demo ended.
+; This can be used to verify proper demo playback.
