@@ -35,7 +35,7 @@ else:
     TEST_TIMEOUT_SECS = int(os.getenv('TEST_TIMEOUT_SECS'))
 
 if not os.getenv('ODAMEX_BIN'):
-    ODAMEX_BIN = r"C:\Users\Blair\source\repos\odamex-alt\out\build\x64-Debug\client\odamex.exe"
+    ODAMEX_BIN = r"C:\Users\miada\source\repos\odamex\build\client\Debug\odamex.exe"
 else:
     ODAMEX_BIN = os.getenv('ODAMEX_BIN')
 
@@ -152,7 +152,7 @@ class DemoTest ():
             if pwads:
                 args.extend(("-file",) + DemoTest.resolve_wads(pwads))
             if deh:
-                args.extend(("-deh", deh))
+                args.extend(("-deh", DemoTest.resolve_wad(deh)))
             args.extend(("+demotest", DemoTest.resolve_demo(demo)))
 
             # Run Odamex in demotest mode
@@ -197,7 +197,7 @@ class DemoTest ():
             if "pwad" in args:
                 args["pwads"] = args["pwad"].split(" ")
                 del args["pwad"]
-            demotests.append(DemoTest.demotest(procs, section, **args))
+            demotests.append(asyncio.create_task(DemoTest.demotest(procs, section, **args)))
 
         # Run our demo-running coroutines.
         done, _ = await asyncio.wait(
@@ -206,7 +206,7 @@ class DemoTest ():
         results = []
 
         for proc in done:
-                results.append(proc.result())
+            results.append(proc.result())
 
         return results
 
