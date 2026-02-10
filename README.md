@@ -16,5 +16,5 @@ Here's the main configuration file for the demo tester. This file will list all 
 `demolist.ini.example` file for more information.
 
 ## Example Resource Repo
-Check the repo [Odamex-Resources](https://github.com/bcahue/odatests-resources) to see an example of how resource repos should
+Check the repo [Odamex-Resources](https://github.com/odamex/odatests-resources) to see an example of how resource repos should
 be laid out for inclusion in an Odamex build pipeline.
